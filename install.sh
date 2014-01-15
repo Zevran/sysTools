@@ -6,7 +6,7 @@
 
 echo "===== sysTools installation ====="
 
-CMD="PATH="PATH:/opt/sysTools/cmd"; export PATH"
+CMD="export PATH='$PATH:/opt/sysTools/cmd'"
 
 if [ -d /etc/profile.d ]; then # Debian Path predefs
 	echo $CMD >> /etc/profile.d/sysTools.sh
