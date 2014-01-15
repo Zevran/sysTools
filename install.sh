@@ -8,11 +8,8 @@ echo "===== sysTools installation ====="
 
 CMD="export PATH='$PATH:/opt/sysTools/cmd'"
 
-if [ -d /etc/profile.d ]; then # Debian Path predefs
-	echo $CMD >> /etc/profile.d/sysTools.sh
-fi
-
-if [ -f /etc/profile.d/sysTools.sh ]; then
+if [ -f /etc/environment ]; then # Debian Path predefs
+	echo $CMD >> /etc/environment
 	echo "===== Success to add PATH env ====="
 else
 	echo "===== Fail to add PATH env ====="
