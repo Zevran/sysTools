@@ -6,16 +6,14 @@
 
 echo "===== sysTools installation ====="
 
-CMD=/opt/sysTools/cmd
+CMD="PATH="PATH:/opt/sysTools/cmd"; export PATH"
 
-if [ -d /etc/paths.d ]; then # Mac Os Path predefs
-	echo $CMD >> /etc/paths.d/sysTools
-elif [ -d /etc/profile.d ]; then # Debian Path predefs
-	echo $CMD >> /etc/profile.d/sysTools
+if [ -d /etc/profile.d ]; then # Debian Path predefs
+	echo $CMD >> /etc/profile.d/sysTools.sh
 fi
 
 if [ -f /etc/profile.d/sysTools ] || [ -f /etc/paths.d/sysTools ]; then
-	echo "===== Add PATH to PATH env ====="
+	echo "===== Success to add PATH env ====="
 else
 	echo "===== Fail to add PATH env ====="
 fi
