@@ -15,3 +15,10 @@ else
 	echo "===== Fail to add PATH env ====="
 fi
 
+if [ -d ./cmd ]; then
+	chmod -R 755 ./cmd
+	echo "===== chmod 755 on cmd dir ====="
+else
+	echo "===== Repository is corrupted ====="
+fi
+
