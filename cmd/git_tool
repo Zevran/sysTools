@@ -3,15 +3,24 @@ import sys, os, subprocess, getopt
 from os import listdir
 
 argv = sys.argv
+user_name = os.getenv("USER")
 home_dir = os.getenv("HOME")
 git_dir = home_dir + '/' + ".git"
+dep_dir = "/var/sysTools/git"
 
 ####
 ## Print usage
 ####
 
 def usage(msg=""):
-	print("Usage: [-h|--help] [--version] [-n GIT_NAME] [-d GIT_NAME] [--list]")
+	print("Usage: git_tool [-v] [-s] [-n] [-d] [-i] <gitnames>")
+	print("Help: Git_tool help you to manage your repositories.\nOptions:\n\
+	-v	--version	Display version of git_tool\n\
+	-l	--list		Display a list of all repositories\n\
+	-s	--shared	Enable share mode of specified repository\n\
+	-n	--new		Create a new repository\n\
+	-d	--delete	Delete a existing repository\n\
+	-i	--infos		Display basics information of specified repository")
 	if msg:
 		print("%s" % msg)
 	sys.exit(0)
@@ -35,7 +44,7 @@ def create_repo(repo_name):
 ####
 
 def delete_repo(repo_name):
-	print "Deleting git repositoy : %s.git" % repo_name
+	print "Deleting git repository : %s.git" % repo_name
 	link_file = home_dir + '/' + repo_name + ".git"
 	repo_dir = git_dir + '/' + repo_name + ".git"
 	if repo_name is None:
@@ -45,6 +54,25 @@ def delete_repo(repo_name):
 		subprocess.call(["rm", "-rf", link_file])
 	else:
 		print("Error: %s: No such file or directory") % repo_name
+
+####
+## Enable share mode
+####
+
+def share_repo(repo_name):
+	print "Shared enable on git repository : %s" % repo_name
+	repo_dir = git_dir + '/' + repo_name + ".git"
+	shared_dir = dep_dir + '/' + user_name
+	shared_link = shared_dir + '/' + repo_name
+	if repo_name is None:
+		print("Error: You must specify a valid repository name")
+	elif os.path.exists(shared_dir) is False:
+		subprocess.call(["mkdir", shared_dir])
+	elif os.path.exists(repo_dir) is False:
+		print("Error: %s: No such file or directory")
+	else:
+		subprocess.call(["ln", "-s", repo_dir, shared_link])
+
 
 ####
 ## Get list of active repositories
@@ -71,8 +99,8 @@ if len(argv) < 2:
 	usage()
 
 try:
-	optspec = ["help", "version", "new", "delete", "list"]
-	global_args, cmd = getopt.getopt(argv[1:], "hvn:d:l", optspec)
+	optspec = ["help", "version", "shared", "new", "delete", "list"]
+	global_args, cmd = getopt.getopt(argv[1:], "hvs:n:d:l", optspec)
 except getopt.GetoptError, ex:
 	usage("error: %s" % ex.msg)
 
@@ -81,6 +109,8 @@ for opt in global_args:
 		usage()
 	elif opt[0] in ['-v', '--version']:
 		get_version()
+	elif opt[0] in ['-s', '--shared']:
+		shared_repo(opt[1])
 	elif opt[0] in ['-n', '--new']:
 		create_repo(opt[1])
 	elif opt[0] in ['-d', '--delete']:

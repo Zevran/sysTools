@@ -7,6 +7,7 @@
 echo "===== sysTools installation ====="
 
 CMD="export PATH='$PATH:/opt/sysTools/cmd'"
+DEP="/var/sysTools/git"
 
 if [ -f /etc/environment ]; then # Debian Path predefs
 	echo $CMD >> /etc/environment
@@ -22,3 +23,17 @@ else
 	echo "===== Repository is corrupted ====="
 fi
 
+####
+## Creating associated directories
+####
+
+echo "===== Creation of dependencies ====="
+
+mkdir -p $DEP
+
+if [ -d $DEP ]; then
+	chmod -R 755 $DEP
+	echo "===== Success ====="
+else
+	echo "Creation has failed"
+fi
