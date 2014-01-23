@@ -61,7 +61,7 @@ def delete_repo(repo_name):
 
 def share_repo(repo_name):
 	print "Shared enable on git repository : %s" % repo_name
-	repo_dir = git_dir + '/' + repo_name + ".git"
+	repo_dir = git_dir + '/' + repo_name
 	shared_dir = dep_dir + '/' + user_name
 	shared_link = shared_dir + '/' + repo_name + ".git"
 	if repo_name is None:
