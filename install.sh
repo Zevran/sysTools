@@ -32,7 +32,7 @@ echo "===== Creation of dependencies ====="
 mkdir -p $DEP
 
 if [ -d $DEP ]; then
-	chmod -R 755 $DEP
+	chmod -R 777 $DEP
 	echo "===== Success ====="
 else
 	echo "Creation has failed"
