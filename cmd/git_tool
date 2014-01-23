@@ -59,7 +59,7 @@ def delete_repo(repo_name):
 ## Enable share mode
 ####
 
-def share_repo(repo_name):
+def share_repo(repo_name, mode):
 	print "Shared enable on git repository : %s" % repo_name
 	repo_dir = git_dir + '/' + repo_name
 	shared_dir = dep_dir + '/' + user_name
@@ -68,10 +68,16 @@ def share_repo(repo_name):
 		print("Error: You must specify a valid repository name")
 	elif os.path.exists(shared_dir) is False:
 		subprocess.call(["mkdir", shared_dir])
-	elif os.path.exists(repo_dir) is False:
-		print("Error: %s: No such file or directory") % repo_name
-	else:
+	elif os.path.exists(repo_dir):
 		subprocess.call(["ln", "-s", repo_dir, shared_link])
+	else:
+		print("Error: %s: No such file or directory") % repo_name
+	if mode == "rdwr":
+		print "Git repository permissions update to read && write"
+		subprocess.call(["chmod", "-R", "770", shared_link])
+	elif mode == "rdonly" or mode is None:
+		print "Git repository permissions update to read only"
+		subprocess.call(["chmod", "-R", "740", shared_link])
 
 
 ####
