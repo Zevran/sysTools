@@ -110,7 +110,7 @@ for opt in global_args:
 	elif opt[0] in ['-v', '--version']:
 		get_version()
 	elif opt[0] in ['-s', '--shared']:
-		shared_repo(opt[1])
+		share_repo(opt[1])
 	elif opt[0] in ['-n', '--new']:
 		create_repo(opt[1])
 	elif opt[0] in ['-d', '--delete']:
