@@ -89,8 +89,12 @@ if [[ "$char" = "y" ]]; then
 	echo "[+] Installing Phalcon requirements..."
 	apt-get install -y php5-dev php5-mysql gcc > /dev/null
 	echo "[+] Installing Phalcon module"
-	git clone --depth=1 git://github.com/phalcon/cphalcon.git /tmp/cphalcon > /dev/null
-	/tmp/cphalcon/build/./install > /dev/null
+	cd /tmp
+	if [[ ! -d "/tmp/cphalcon" ]]; then
+		git clone git://github.com/phalcon/cphalcon.git > /dev/null
+	fi
+	cd cphalcon/build
+	./install > /dev/null
 	echo "[+] Adding Phalcon module to php.ini"
 	if [[ "$engine" = "apache2" ]]; then
 		echo "extension=phalcon.so" >> /etc/php5/apache2/php.ini
