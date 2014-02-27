@@ -1,6 +1,6 @@
 # !/bin/sh
 
-packages="git-core sudo vim zsh"
+packages="git-core sudo vim zsh curl node"
 
 if [[ "$(id -u)" != "0" ]]; then
 	echo "[-] This script must be run as root"

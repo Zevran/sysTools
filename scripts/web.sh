@@ -29,12 +29,16 @@ fi
 
 echo "[+] Installing MySQL..."
 if [[ "$engine" = "nginx" ]]; then
-	apt-get install -y mysql-server php5-mysql > /dev/null
+	apt-get install -y php5-mysql > /dev/null
+	apt-get install -y mysql-server
 elif [[ "$engine" = "apache2" ]]; then
-	apt-get install -y mysql-server libapache2-mod-auth-mysql php5-mysql > /dev/null
+	apt-get install -y libapache2-mod-auth-mysql php5-mysql > /dev/null
+	apt-get install -y mysql-server
 fi
 
+echo "[+] Run default script after mysql install"
 sudo mysql_install_db
+echo "[+] Run secure script after mysql install"
 sudo /usr/bin/mysql_secure_installation
 
 echo "[+] Installing PHP..."
