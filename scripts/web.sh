@@ -86,10 +86,12 @@ fi
 
 read -p "[?] Enable Phalcon module ? : [y/n]" char
 if [[ "$char" = "y" ]]; then
-	echo "[+] Installing phalcon module"
+	echo "[+] Installing Phalcon requirements..."
+	apt-get install -y php5-dev php5-mysql gcc > /dev/null
+	echo "[+] Installing Phalcon module"
 	git clone --depth=1 git://github.com/phalcon/cphalcon.git /tmp/cphalcon > /dev/null
 	/tmp/cphalcon/build/./install > /dev/null
-	echo "[+] Adding phalcon module to php.ini"
+	echo "[+] Adding Phalcon module to php.ini"
 	if [[ "$engine" = "apache2" ]]; then
 		echo "extension=phalcon.so" >> /etc/php5/apache2/php.ini
 	elif [[ "$engine" = "nginx" ]]; then
