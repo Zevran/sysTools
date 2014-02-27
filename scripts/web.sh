@@ -51,7 +51,7 @@ for i in $packages ; do
 	apt-get install -y $i > /dev/null
 done
 
-read -p "[?] Enable CloudFlare module ? : " char
+read -p "[?] Enable CloudFlare module ? : [y/n]" char
 if [[ "$char" = "y" ]]; then
 	if [[ "$engine" = "nginx" ]]; then
 		echo "[-] Failed nginx realip module part is not supported..."
@@ -63,7 +63,7 @@ if [[ "$char" = "y" ]]; then
 	fi
 fi
 
-echo "[?] Enable Phalcon module ? [y/n] : " char
+read -p "[?] Enable Phalcon module ? : [y/n]" char
 if [[ "$char" = "y" ]]; then
 	echo "[+] Installing phalcon module"
 	git clone --depth=1 git://github.com/phalcon/cphalcon.git /tmp > /dev/null
