@@ -20,6 +20,7 @@ if [[ "$char" = "y" ]]; then
 	if [[ "$string" = "nginx" ]]; then
 		echo "[+] Installing nginx..."
 		apt-get install -y nginx > /dev/null
+		service nginx start
 		engine="nginx"
 	elif [[ "$string" = "apache2" ]]; then
 		echo "[+] Installing apache2..."
@@ -58,6 +59,10 @@ read -p "[?] Install PHP ? : [y/n]" char
 	if [[ "$char" = "y" ]]; then
 	echo "[+] Installing PHP5..."
 	apt-get install -y php5
+	if [[ "$engine" = "nginx" ]]; then
+		echo "[+] Installing php-fpm"
+		apt-get install -y php5-fpm > /dev/null
+	fi
 	echo "[+] Select additionnal packages for php"
 	apt-cache search php5-
 	read -p "[?] Type packages : " packages
@@ -84,15 +89,18 @@ if [[ "$char" = "y" ]]; then
 	echo "[+] Installing phalcon module"
 	git clone --depth=1 git://github.com/phalcon/cphalcon.git /tmp > /dev/null
 	/tmp/cphalcon/build/./install > /dev/null
+	echo "[+] Adding phalcon module to php.ini"
 	if [[ "$engine" = "apache2" ]]; then
-		echo "[+] Adding phalcon module to php.ini"
 		echo "extension=phalcon.so" >> /etc/php5/apache2/php.ini
+	elif [[ "$engine" = "nginx" ]]; then
+		echo "extension=phalcon.so" >> /etc/php5/fpm/php.ini
 	fi
 fi
 
 if [[ "$engine" = "nginx" ]]; then
-	echo "[+] Restarting nginx service..."
+	echo "[+] Restarting nginx && php-5fpm service..."
 	service nginx restart
+	service php5-fpm restart
 elif [[ "$engine" = "apache2" ]]; then
 	echo "[+] Restarting apache2 service..."
 	service apache2 restart
