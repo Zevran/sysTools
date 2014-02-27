@@ -87,7 +87,7 @@ fi
 read -p "[?] Enable Phalcon module ? : [y/n]" char
 if [[ "$char" = "y" ]]; then
 	echo "[+] Installing phalcon module"
-	git clone --depth=1 git://github.com/phalcon/cphalcon.git /tmp > /dev/null
+	git clone --depth=1 git://github.com/phalcon/cphalcon.git /tmp/cphalcon > /dev/null
 	/tmp/cphalcon/build/./install > /dev/null
 	echo "[+] Adding phalcon module to php.ini"
 	if [[ "$engine" = "apache2" ]]; then
