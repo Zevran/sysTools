@@ -29,9 +29,11 @@ fi
 
 echo "[+] Installing MySQL..."
 if [[ "$engine" = "nginx" ]]; then
+	echo "[+] Setting up MySQL for nginx"
 	apt-get install -y php5-mysql > /dev/null
 	apt-get install -y mysql-server
 elif [[ "$engine" = "apache2" ]]; then
+	echo "[+] Setting up MySQL for apache2"
 	apt-get install -y libapache2-mod-auth-mysql php5-mysql > /dev/null
 	apt-get install -y mysql-server
 fi
