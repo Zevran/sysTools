@@ -1,0 +1,135 @@
+[DEFAULT]
+# Do not filter connexion from my apartment and from the server itself
+ignoreip  = 127.0.0.1
+# Ban for a week
+bantime   = 604800
+maxretry  = 3
+destemail = info@zevran.net
+banaction = iptables-allports
+action    = %(action_mwl)s
+
+[ssh]
+enabled  = true
+port     = 22
+maxretry = 2
+
+[ssh-ddos]
+enabled = true
+port     = 22
+
+[apache]
+# Apache basic auth
+enabled   = true
+maxretry  = 3
+# Ban for 1 hour
+bantime   = 3600
+
+[apache-noscript]
+enabled = true
+
+[apache-overflows]
+enabled = true
+
+[apache-badbots]
+enabled  = true
+filter   = apache-badbots
+port     = http,https
+action   = iptables-allports
+logpath  = /var/log/apache*/*access.log
+maxretry = 1
+
+[apache-nohome]
+enabled  = true
+filter   = apache-nohome
+port     = http,https
+action   = iptables-allports
+logpath  = /var/log/apache*/*access.log
+maxretry = 1
+
+[apache-w00tw00t]
+enabled   = true
+port      = http,https
+filter    = apache-w00tw00t
+banaction = iptables-allports
+action    = %(action_mwl)s
+logpath   = /var/log/apache*/*error.log
+maxretry  = 1
+
+[apache-modsec]
+enabled   = true
+port      = http,https
+filter    = apache-modsec
+banaction = iptables-multiport
+action    = %(action_mwl)s
+logpath   = /var/log/modsecurity/audit.log
+maxretry  = 1
+
+[apache-modevasive]
+enabled   = true
+port      = http,https
+filter    = apache-modevasive
+banaction = iptables-allports
+action    = %(action_mwl)s
+logpath   = /var/log/apache*/*error.log
+bantime   = 600
+maxretry  = 3
+
+[postfix]
+enabled  = true
+maxretry = 1
+
+[exim]
+enabled  = true
+filter   = exim
+port     = smtp,ssmtp
+action   = iptables-allports
+logpath  = /var/log/exim*/rejectlog
+maxretry = 1
+
+[exim-relay]
+enabled  = true
+filter   = exim-relay
+port     = smtp,ssmtp
+action   = iptables-allports
+logpath  = /var/log/exim*/rejectlog
+maxretry = 1
+
+[nginx-auth]
+enabled = true
+filter = nginx-auth
+action = iptables-multiport[name=NoAuthFailures, port="http,https"]
+logpath = /var/log/nginx*/*error*.log
+bantime = 600 # 10 minutes
+maxretry = 6
+
+[nginx-login]
+enabled = true
+filter = nginx-login
+action = iptables-multiport[name=NoLoginFailures, port="http,https"]
+logpath = /var/log/nginx*/*access*.log
+bantime = 600 # 10 minutes
+maxretry = 6
+
+[nginx-badbots]
+enabled  = true
+filter = apache-badbots
+action = iptables-multiport[name=BadBots, port="http,https"]
+logpath = /var/log/nginx*/*access*.log
+bantime = 86400 # 1 day
+maxretry = 1
+
+[nginx-noscript]
+enabled = true
+action = iptables-multiport[name=NoScript, port="http,https"]
+filter = nginx-noscript
+logpath = /var/log/nginx*/*access*.log
+maxretry = 6
+bantime  = 86400 # 1 day
+
+[nginx-proxy]
+enabled = true
+action = iptables-multiport[name=NoProxy, port="http,https"]
+filter = nginx-proxy
+logpath = /var/log/nginx*/*access*.log
+maxretry = 0
+bantime  = 86400 # 1 day
